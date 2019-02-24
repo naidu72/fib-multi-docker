@@ -1,17 +1,19 @@
-sudo: requried
-
+sudo: required
 services:
- - docker 
-berfore_install:
- - docker build -t naidu72/test -f ./client/Dockerfile.dev  ./client
+  - docker
+
+before_install:
+  - docker build -t naidu72/react-test -f ./client/Dockerfile.dev ./client
+
 script:
- - docker run naidu72/test npm test -- --coverage
+  - docker run naidu72/react-test npm test -- --coverage
+
 after_success:
   - docker build -t naidu72/multi-client ./client
   - docker build -t naidu72/multi-nginx ./nginx
   - docker build -t naidu72/multi-server ./server
   - docker build -t naidu72/multi-worker ./worker
-# Log in to the docker CLI
+  # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
   - docker push naidu72/multi-client
