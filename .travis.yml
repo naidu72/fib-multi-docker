@@ -3,7 +3,7 @@ sudo: requried
 services:
  - docker 
 berfore_install:
- - docker build -t naidu72/test -f./client/Dockerfile.dev  ./client
+ - docker build -t naidu72/test -f ./client/Dockerfile.dev  ./client
 script:
  - docker run naidu72/test npm test -- --coverage
 after_success:
