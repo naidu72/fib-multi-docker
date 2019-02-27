@@ -17,7 +17,20 @@ after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
   - docker push naidu72/multi-client
-  - docker push naidu72/multi-nginx
+  - docker push naidu72/multi-nginx             
   - docker push naidu72/multi-server
   - docker push naidu72/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-west-1
+  app: MDcoker-env
+  env: MdcokerEnv-env
+  bucket_name: elasticbeanstalk-ca-central-1-873473197052
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
 
